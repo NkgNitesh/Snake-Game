@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Light grey background for the whole page */
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+#gameCanvas {
+    background-color: cyan; /* Set canvas background color */
+    border: 5px solid #333; /* Add a border to the canvas */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Shadow effect around canvas */
+    margin-top: 20px;
+}
+
+#scoreContainer {
+    margin-bottom: 20px;
+}
+
+#score, #highScore {
+    font-size: 20px;
+    color: #333;
+    margin: 5px 0;
+}
+
+#themeSelect {
+    padding: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.container {
+    display: flex;
+    justify-content: center; /* Centers the container horizontally */
+    align-items: center; /* Centers content vertically */
+    margin-top: 20px;
+}
+
+#scoreContainer {
+    margin-right: 20px; /* Adds space between the score and canvas */
+    text-align: left; /* Aligns text to the left */
+}
+
+#gameCanvas {
+    background-color: cyan; /* Set canvas background color */
+    border: 5px solid #333; /* Adds a border to the canvas */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Shadow effect around canvas */
+}
