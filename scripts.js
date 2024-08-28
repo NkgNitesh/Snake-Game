@@ -20,6 +20,31 @@ let speed = 100;
 // Load sound effects
 let eatSound = new Audio('eating-sound-effect-36186.mp3');
 let gameOverSound = new Audio('game-over-31-179699.mp3');
+// Place these at the top of your game.js file
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+// Initialize the direction of the snake
+let snakeDirection = 'RIGHT'; // Make sure this aligns with your existing direction logic
+// Add these listeners after your global variable declarations
+document.addEventListener('touchstart', function(event) {
+    touchStartX = event.changedTouches[0].screenX;
+    touchStartY = event.changedTouches[0].screenY;
+}, false);
+
+document.addEventListener('touchend', function(event) {
+    touchEndX = event.changedTouches[0].screenX;
+    touchEndY = event.changedTouches[0].screenY;
+
+    handleSwipe(); // Call function to handle swipe
+}, false);
+
+// Prevent scrolling on touch to enhance game interaction
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+}, { passive: false });
 
 
 
@@ -136,8 +161,74 @@ function draw() {
     }
     document.getElementById('highScore').innerText = 'High Score: ' + highScore;
 }
+// Define the handleSwipe function near other input handling functions
+function handleSwipe() {
+    let dx = touchEndX - touchStartX;
+    let dy = touchEndY - touchStartY;
+
+    // Determine if the swipe is more horizontal or vertical
+    if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) {
+            // Right swipe
+            if (snakeDirection !== 'LEFT') {
+                snakeDirection = 'RIGHT';
+            }
+        } else {
+            // Left swipe
+            if (snakeDirection !== 'RIGHT') {
+                snakeDirection = 'LEFT';
+            }
+        }
+    } else {
+        if (dy > 0) {
+            // Down swipe
+            if (snakeDirection !== 'UP') {
+                snakeDirection = 'DOWN';
+            }
+        } else {
+            // Up swipe
+            if (snakeDirection !== 'DOWN') {
+                snakeDirection = 'UP';
+            }
+        }
+    }
+}
 
 function gameLoop() {
+    // Assume this function is called continuously to update the game
+function gameLoop() {
+    // Other game logic (like drawing, collision checks, etc.)
+
+    // Update the snake's position based on the current direction
+    moveSnake();
+
+    // Rest of the game loop logic
+}
+
+// Function to move the snake based on the current direction
+function moveSnake() {
+    let head = snake[0]; // Assume the snake is an array of objects representing its body segments
+
+    // Determine new head position based on current direction
+    let newHead;
+
+    if (snakeDirection === 'UP') {
+        newHead = { x: head.x, y: head.y - 1 }; // Move up
+    } else if (snakeDirection === 'DOWN') {
+        newHead = { x: head.x, y: head.y + 1 }; // Move down
+    } else if (snakeDirection === 'LEFT') {
+        newHead = { x: head.x - 1, y: head.y }; // Move left
+    } else if (snakeDirection === 'RIGHT') {
+        newHead = { x: head.x + 1, y: head.y }; // Move right
+    }
+
+    // Add the new head to the snake body
+    snake.unshift(newHead);
+
+    // Remove the last segment of the snake (unless it has just eaten food)
+    snake.pop();
+}
+
     draw();
     if (score % 15 === 0 && score !== 0) {
         speed -= 1;
@@ -145,6 +236,7 @@ function gameLoop() {
         clearInterval(game);
         game = setInterval(gameLoop, speed);
     }
+    
 }
 
 let game = setInterval(gameLoop, speed);
